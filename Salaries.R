@@ -16,10 +16,16 @@ major_DB %>% filter(Sample_size>50) %>% group_by(Major_category) %>%
   geom_col()+coord_flip()
   
 #Plot con los quartiles y rangos
-Median P25th  P75th
+#Median P25th  P75th
 
-Unemployment_rate
+Unemployment_rate<- major_DB %>% filter(Sample_size>50) %>%
+  select(Major,Median,Unemployment_rate)
 
 
+Unemployment_rate %>% ggplot(aes(Median,Unemployment_rate))+
+  geom_point()
 
-
+Unemployment_rate %>% arrange(desc(Unemployment_rate)) %>% head(15) %>%
+  ggplot(aes(reorder(Major,Unemployment_rate),Unemployment_rate))+
+  geom_col()+coord_flip()
+  
