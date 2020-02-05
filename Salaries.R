@@ -21,11 +21,20 @@ major_DB %>% filter(Sample_size>50) %>% group_by(Major_category) %>%
 Unemployment_rate<- major_DB %>% filter(Sample_size>50) %>%
   select(Major,Median,Unemployment_rate)
 
-
 Unemployment_rate %>% ggplot(aes(Median,Unemployment_rate))+
   geom_point()
 
 Unemployment_rate %>% arrange(desc(Unemployment_rate)) %>% head(15) %>%
   ggplot(aes(reorder(Major,Unemployment_rate),Unemployment_rate))+
   geom_col()+coord_flip()
-  
+
+
+
+major_DB %>%
+  group_by(Major) %>%
+  arrange(desc(Median)) %>%
+  head(20) %>%
+  ggplot(aes(reorder(Major,Median),Median))+
+  geom_point()+
+  geom_errorbar(aes(ymin=P25th,ymax=P75th))+
+  coord_flip()
