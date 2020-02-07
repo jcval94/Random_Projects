@@ -38,3 +38,15 @@ major_DB %>%
   geom_point()+
   geom_errorbar(aes(ymin=P25th,ymax=P75th))+
   coord_flip()
+
+
+major_DB %>%
+  group_by(Major_category) %>%
+  mutate(Mediana_M=median(Median),Mediana_25=median(P25th),Mediana_75=median(P75th)) %>%
+  arrange(desc(Median)) %>%
+  #select(Major_category,Mediana_M)%>%
+  #head(20) %>%
+  ggplot(aes(reorder(Major_category,Mediana_M),Mediana_M))+
+  geom_point()+
+  geom_errorbar(aes(ymin=Mediana_25,ymax=Mediana_75))+
+  coord_flip()
