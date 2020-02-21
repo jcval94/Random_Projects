@@ -35,3 +35,6 @@ palabras2[["Let_inval"]]<-map(palabras2[["letras"]],setdiff,letras)
 
 palabras2[["Let_inval_len"]]<-map_int(Let_inval,length)
 
+
+#CREAR FUNCIÓN GENERADORA Y MAXIMIZAR PUNTOS
+
