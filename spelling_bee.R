@@ -11,6 +11,7 @@ palabras<-tibble(word=read_lines("https://norvig.com/ngrams/enable1.txt"))
 palabras
 
 
+
 letras<-c("a","p","x","m","e","l","g")
 letra_central<-"g"
 #Palabras que contengan g
@@ -33,8 +34,13 @@ setdiff(palabras2[["letras"]][[1000]],letras)
 #les quité todas
 palabras2[["Let_inval"]]<-map(palabras2[["letras"]],setdiff,letras)
 
-palabras2[["Let_inval_len"]]<-map_int(Let_inval,length)
 
+palabras2[["Let_inval_len"]]<-lengths(map(palabras2[["letras"]],setdiff,letras))
+
+
+palabras2<-palabras2[palabras2[["Let_inval_len"]]==0,]
+# map(palabras2[palabras2[[1]]=="ag","Let_inval"],~nchar(.x[[1]]))
+# map(palabras2[,"Let_inval"],~nchar(.x[[1]]))
 
 #CREAR FUNCIÓN GENERADORA Y MAXIMIZAR PUNTOS
-
+palabras2
