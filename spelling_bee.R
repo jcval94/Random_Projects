@@ -44,3 +44,26 @@ palabras2<-palabras2[palabras2[["Let_inval_len"]]==0,]
 
 #CREAR FUNCIÓN GENERADORA Y MAXIMIZAR PUNTOS
 palabras2
+
+
+puntos <- function(letras, letra_central) {
+  if(!letra_central %in% letras){
+    return(warning("letra cantral dee estar en letras"))
+    }
+  palabras2<-palabras[str_detect(palabras[[1]],letra_central),] %>%
+    filter(str_length(word) >=4) %>% 
+    mutate(caracteres=str_length(word)) %>%
+    mutate(puntos=ifelse(caracteres==4,1,caracteres)) %>%
+    arrange(desc(puntos)) %>%
+    mutate(letras=strsplit(word,"")) 
+    # mutate(Let_inval=map(letras,setdiff,letras)) %>%
+    # mutate(Let_inval_len=lengths(Let_inval)) %>%
+    # filter(Let_inval_len==0)
+  palabras2[["Let_inval"]]<-map(palabras2[["letras"]],setdiff,letras)
+  palabras2[["Let_inval_len"]]<-lengths(palabras2[["Let_inval"]])
+  palabras2<-palabras2[palabras2[["Let_inval_len"]]==0,]
+  return(palabras2)
+    
+}
+
+HB<-puntos(letras,letra_central)
