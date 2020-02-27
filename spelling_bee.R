@@ -47,7 +47,7 @@ palabras2
 
 
 puntos <- function(letras, letra_central) {
-  if(!letra_central %in% letras){
+  if(!letra_central %in% letras | any(duplicated(letras))){
     return(warning("letra cantral dee estar en letras"))
     }
   palabras2<-palabras[str_detect(palabras[[1]],letra_central),] %>%
@@ -63,7 +63,10 @@ puntos <- function(letras, letra_central) {
   palabras2[["Let_inval_len"]]<-lengths(palabras2[["Let_inval"]])
   palabras2<-palabras2[palabras2[["Let_inval_len"]]==0,]
   return(palabras2)
-    
 }
+
+
+letras<-c("a","d","p","m","e","l","g")
+letra_central<-"g"
 
 HB<-puntos(letras,letra_central)
