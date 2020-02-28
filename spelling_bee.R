@@ -67,6 +67,9 @@ puntos <- function(letras, letra_central) {
 
 
 letras<-c("a","d","p","m","e","l","g")
-letra_central<-"g"
+letra_central<-"p"
 
 HB<-puntos(letras,letra_central)
+
+HB
+
