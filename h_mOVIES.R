@@ -86,4 +86,13 @@ HM_1 %>% filter(!is.na(genres)) %>%
 #mismo resultado para el g{enero}
 
 #Ahora separaremos la columna plot
+HM_2 <- HM_1 %>% 
+  separate(plot,into=c("Director","cast","plot"),sep="\\.")
+
+
+HM_2$Director<-HM_2$Director %>% str_remove("Directed by ")
+
+HM_2$cast<-HM_2$cast %>% str_remove(" With ")
+
+
 
