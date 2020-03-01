@@ -39,5 +39,12 @@ HM_1 %>% select(budget,review_rating) %>%
   cor()
 #En efecto, es muy baja la correlaci{on}
 
+HM_1 %>% mutate(movie_rating=fct_lump(movie_rating,5)) %>%
+  count(movie_rating,sort = T) %>% 
+  ggplot(aes(reorder(movie_rating,n),n)) +
+  geom_col()+coord_flip()
 
-
+#Probamos si 
+HM_1 %>% mutate(movie_rating=fct_lump(movie_rating,5)) %>%
+  ggplot(aes(reorder(movie_rating,review_rating),review_rating)) +
+  geom_boxplot()+coord_flip()
