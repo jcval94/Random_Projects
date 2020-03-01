@@ -44,7 +44,46 @@ HM_1 %>% mutate(movie_rating=fct_lump(movie_rating,5)) %>%
   ggplot(aes(reorder(movie_rating,n),n)) +
   geom_col()+coord_flip()
 
-#Probamos si 
+#Veremos la variaci{on de los reviews respecto a la clasificacion
+#de la pelicula
 HM_1 %>% mutate(movie_rating=fct_lump(movie_rating,5)) %>%
   ggplot(aes(reorder(movie_rating,review_rating),review_rating)) +
   geom_boxplot()+coord_flip()
+
+#Analizaremos la varianza
+
+#Primero debemos revisar si la dist. es normal
+library(FitUltD)
+Fit<-FDist(na.omit(HM_1$review_rating),plot = T)
+Fit[[4]]
+#Efectivamente, p.valores >0.05, ahora podemos utilizar anova()
+
+#Retiramos na's
+HM_1 %>% mutate(movie_rating=fct_lump(movie_rating,5)) %>%
+  filter(!is.na(movie_rating)) %>%
+  lm(review_rating~movie_rating,data=.) %>%
+  anova()
+  
+#Dado que Pr(>F) (p.valor) es muy cercano a 0 entonces rechazamos que
+#tienen la misma varianza, es decir, el tipo de pel{icula} afecta la calificación
+
+
+#Analisis de columnas con "|" como separador 
+#(aquellas con más d euna clasificación)
+HM_1 %>% filter(!is.na(genres)) %>% 
+  separate_rows(genres,sep = "\\| ") %>%
+  mutate(genres=fct_lump(genres,5)) %>%
+  ggplot(aes(reorder(genres,review_rating),review_rating)) +
+  geom_boxplot()+coord_flip()
+
+
+HM_1 %>% filter(!is.na(genres)) %>% 
+  separate_rows(genres,sep = "\\| ") %>%
+  mutate(genres=fct_lump(genres,5)) %>% 
+  lm(review_rating~genres,data = .) %>%
+  anova()
+
+#mismo resultado para el g{enero}
+
+#Ahora separaremos la columna plot
+
