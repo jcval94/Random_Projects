@@ -95,14 +95,26 @@ HM_2$cast<-HM_2$cast %>% str_remove(" With ")
 
 library(tidytext)
 
-words<-HM_2 %>% filter(!is.na(movie_rating)) %>% select(plot,review_rating,movie_rating) %>% unnest_tokens(word,plot) %>%
+words<-HM_2 %>% 
+  select(plot,review_rating,movie_rating) %>% 
+  unnest_tokens(word,plot) %>%
   anti_join(stop_words,by="word")
 
-words %>%  count(word,sort = T) %>% 
+words %>% count(word,sort = T) %>% 
   head(15) %>% ggplot(aes(reorder(word,n),n)) +
   geom_col()+coord_flip()
 
 #estadísticos por palabra
-words
+W_RT<-words %>% filter(!is.na(review_rating)) %>% 
+  group_by(word) %>%
+  summarize(pelis=n(),rating=mean(review_rating)) %>%
+  arrange(desc(pelis))
 
 
+W_RT %>% filter(pelis>=75 & rating>4) %>%
+  ggplot(aes(reorder(word,rating),rating))+geom_point()+coord_flip()
+
+#Por lo visto las mujeres mejoran el rating de una peli de terror
+#Probémoslo...
+
+##Hagamos regresión Lasso
