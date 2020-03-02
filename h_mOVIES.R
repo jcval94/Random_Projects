@@ -91,8 +91,18 @@ HM_2 <- HM_1 %>%
 
 
 HM_2$Director<-HM_2$Director %>% str_remove("Directed by ")
-
 HM_2$cast<-HM_2$cast %>% str_remove(" With ")
 
+library(tidytext)
+
+words<-HM_2 %>% filter(!is.na(movie_rating)) %>% select(plot,review_rating,movie_rating) %>% unnest_tokens(word,plot) %>%
+  anti_join(stop_words,by="word")
+
+words %>%  count(word,sort = T) %>% 
+  head(15) %>% ggplot(aes(reorder(word,n),n)) +
+  geom_col()+coord_flip()
+
+#estadísticos por palabra
+words
 
 
