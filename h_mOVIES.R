@@ -125,10 +125,49 @@ Matriz_palabras<-words %>%
   add_count(word) %>% filter(n>=20) %>%
   count(title,word) %>% cast_sparse(title,word,n)
 
+# El cast_sparse hace la función inversa de count con 2 o más variables
+# es decir, transforma dos columnas en un data frame
+####-----------
+#EJEMPLO
+dat <- data.frame(a = c("row1", "row1", "row2", "row2", "row2"),
+                  b = c("col1", "col2", "col1", "col3", "col4"),
+                  val = 1:5)
+
+cast_sparse(dat, a, b)
+cast_sparse(dat, a, b, val)
+####-----------
+
+
+
 y<-words$review_rating[match(rownames(Matriz_palabras),words$title)]
 
 qplot(y)
 
-cv.glmnet(Matriz_palabras,y)
+#La funciñon cv.glmnet hace cross validation para un 
+#modelo lineal simple para Regularization, que calcula el 
+#valor de lambda para aplicar como penalizaci{on de un modelo
+#lineal y=a+b*x+lambda*abs(b)
+#que sirve para mejorar la predicción de la matriz
+#respecto al valor que queremos calcular
+
+View(Matriz_palabras)
+Matriz_palabras@Dim
+#Son 2420 filas y 240 columnas con valores igual a la
+#cantidad de veces que se repiten los valores
+
+lasso_model<-cv.glmnet(Matriz_palabras,y)
+library(broom)
 #Matriz_palabras %>% ggplot(aes())
+tidy(lasso_model$glmnet.fit)
+
+plot(lasso_model)
+
+#Vemos que entre más crece lambda más disminuye el error 
+#hasta llegar el valor log(lambda)=-3
+#Es decir, ente más se reduce la penalización
+#el error disminuye y entonces, un modelo lineal estaría
+#bastante sobreajustado
+
+#El valor de lambda que minimiza el error es
+lasso_model$lambda.min
 
