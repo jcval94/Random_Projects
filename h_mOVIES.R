@@ -96,7 +96,7 @@ HM_2$cast<-HM_2$cast %>% str_remove(" With ")
 library(tidytext)
 
 words<-HM_2 %>% 
-  select(plot,review_rating,movie_rating) %>% 
+  select(title,plot,review_rating,movie_rating) %>% 
   unnest_tokens(word,plot) %>%
   anti_join(stop_words,by="word")
 
@@ -118,3 +118,17 @@ W_RT %>% filter(pelis>=75 & rating>4) %>%
 #Probémoslo...
 
 ##Hagamos regresión Lasso
+library(glmnet)
+#Hagamos una matriz de las películas y las palabras que más aparecen en ellas
+Matriz_palabras<-words %>% 
+  filter(!is.na(review_rating))%>% 
+  add_count(word) %>% filter(n>=20) %>%
+  count(title,word) %>% cast_sparse(title,word,n)
+
+y<-words$review_rating[match(rownames(Matriz_palabras),words$title)]
+
+qplot(y)
+
+cv.glmnet(Matriz_palabras,y)
+#Matriz_palabras %>% ggplot(aes())
+
