@@ -156,9 +156,10 @@ Matriz_palabras@Dim
 #cantidad de veces que se repiten los valores
 
 lasso_model<-cv.glmnet(Matriz_palabras,y)
+
 library(broom)
 #Matriz_palabras %>% ggplot(aes())
-tidy(lasso_model$glmnet.fit)
+lasso<-tidy(lasso_model$glmnet.fit)
 
 plot(lasso_model)
 
@@ -168,6 +169,30 @@ plot(lasso_model)
 #el error disminuye y entonces, un modelo lineal estaría
 #bastante sobreajustado
 
-#El valor de lambda que minimiza el error es
+#Veamos como cambian los parámetros
+#(pendientes) de las regresiones
+#conforme lambda avanza
+#y en qué punto se ve la mejor pendiente
+lasso[lasso$term %in% c("quickly","seek","evil","unespected",
+                        "village","collage",
+                         "friends","army","teacher","boy"),] %>%
+  ggplot(aes(x = lambda,y = estimate,color=term))+
+  geom_line()+
+  scale_x_log10()+
+  geom_vline(xintercept = lasso_model$lambda.min)+
+  geom_hline(yintercept = 0,lty=2)
+
+#El valor de lambda que minimiza el error es:
 lasso_model$lambda.min
+
+#Ahora veamos las pendientes
+#más altas y las menores y qué variables están asociadas
+#a estas
+lasso[lasso$lambda==lasso_model$lambda.min &
+        lasso$term!="(Intercept)",] %>%
+  ggplot(aes(reorder(term,estimate),estimate)) +
+  geom_col() +
+  coord_flip()
+
+
 
