@@ -1,4 +1,4 @@
-
+#https://www.youtube.com/watch?v=ELA8gNNMHoU
 
 f_b<-function(n){
   if(!is.integer(n) & any(c(n<0,n==Inf))){
@@ -25,7 +25,7 @@ f_b<-function(n){
   
   operacion(ini,m_p,n)
   
-  
+  n<-250000
   
   
   
