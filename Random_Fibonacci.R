@@ -8,7 +8,6 @@ f_b<-function(N){
   acumulado<-acumul<-vector(mode = "list", length = N)
   
   operacion<-function(k,n,acumul){
-    #if(missing(acumul)){acumul<-acumulado}
     m_p_<-rbinom(1,size=1,prob = 1/2)
     if(n!=0){
       if (m_p_==0) {
@@ -17,25 +16,31 @@ f_b<-function(N){
         p<-(k[1]-k[2])
       }
       iter<-N-n+1
-      print(c(iter,p))
       acumul[[iter]]<-c(iter,p)
       n<-n-1
-      p<-operacion(c(k[2],p),n,acumul)
-      print(paste0("A",acumul[[iter]]))
+      #print(paste0("A",acumul[[iter]]))
+      acumul<-operacion(c(k[2],p),n,acumul)
+      return(acumul)
+      
     }else{
-      p<-0
+      return(acumul)
     }
-    return(acumul)
   }
-  
   seee<-operacion(k=ini,n=N,acumul = acumulado)
-  return(acumul)
+  return(seee)
 }
 
-  
   
 n<-1000
 
 l1<-f_b(n)
 
+library(tidyverse)
+
+
+fibo<-(purrr::map_df(l1,~data.frame(.x[1],.x[2])))
+
+names(fibo)<-c("n","suma")
+
+fibo %>% ggplot(aes(abs(suma),n))+geom_line()+scale_x_log10()
 
