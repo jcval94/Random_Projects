@@ -87,5 +87,7 @@ maxi*2
 library(FitUltD)
 fIT_ra<-FDistUlt(sample(R_a,1000),plot = T,subplot = T)
 
-
 fIT_ra[[3]]
+
+fIT_ra[[4]]
+
