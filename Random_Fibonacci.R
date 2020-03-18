@@ -91,3 +91,13 @@ fIT_ra[[3]]
 
 fIT_ra[[4]]
 
+
+fIT_ra<-FDistUlt(tail(R_a,100),plot = T,subplot = T)
+
+fIT_ra[[3]]
+
+fIT_ra[[4]]
+
+
+
+
