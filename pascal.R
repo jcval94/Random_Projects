@@ -1,0 +1,5 @@
+#RECURSSION
+
+triang<-function(n){
+  
+}
