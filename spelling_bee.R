@@ -1,8 +1,6 @@
 #Text & Puzzles
 #https://fivethirtyeight.com/features/can-you-solve-the-vexing-vexillology/
 
-
-
 library(tidyverse)
 
 
