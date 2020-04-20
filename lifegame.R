@@ -7,21 +7,23 @@
 n <- 5
 tablero <- matrix(integer(n^2), n, n)
 
+#No hay diferencia en lógica si aumento una dimesión más la matriz
+#y solo muestro lo que sucede en n-1
 Iter<-function(m)
 {
-  len <- sqrt(length(m))
+  len <- sqrt(length(m+1))
   m2<-matrix(integer(len^2), len, len)
   for (i in 1:length(len)) {
     for (j in 1:length(len)) {
       if(m[i,j] == 0) {
         #revivir
-        rededorh<-sapply(c(i-1, i, i+1),
-                         function(x) min(max(x,1),len))
-        rededorh<-rededorh[!duplicated(rededorh)]
-        rededorw<-sapply(c(j-1, j, j+1),
-                         function(x) min(max(x,1),len))
-        rededorw<-rededorw[!duplicated(rededorw)]
-        expand.grid(rededorh, rededorw)
+        # rededorh<-sapply(c(i-1, i, i+1),
+        #                  function(x) min(max(x,1),len))
+        # rededorh<-rededorh[!duplicated(rededorh)]
+        # rededorw<-sapply(c(j-1, j, j+1),
+        #                  function(x) min(max(x,1),len))
+        # rededorw<-rededorw[!duplicated(rededorw)]
+        # expand.grid(rededorh, rededorw)
       }else{
         #seguir vivo
         #morir
