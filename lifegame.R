@@ -11,23 +11,19 @@ tablero <- matrix(integer(n^2), n, n)
 #y solo muestro lo que sucede en n-1
 Iter<-function(m)
 {
-  len <- sqrt(length(m+1))
-  m2<-matrix(integer(len^2), len, len)
-  for (i in 1:length(len)) {
-    for (j in 1:length(len)) {
-      if(m[i,j] == 0) {
-        #revivir
-        # rededorh<-sapply(c(i-1, i, i+1),
-        #                  function(x) min(max(x,1),len))
-        # rededorh<-rededorh[!duplicated(rededorh)]
-        # rededorw<-sapply(c(j-1, j, j+1),
-        #                  function(x) min(max(x,1),len))
-        # rededorw<-rededorw[!duplicated(rededorw)]
-        # expand.grid(rededorh, rededorw)
-      }else{
-        #seguir vivo
-        #morir
-      }
+  alto <- dim(m)[1] + 2
+  ancho <- dim(m)[2] + 2
+  
+  m2 <- matrix(integer(alto*ancho), alto, ancho)
+  for (i in 2:(alto-1)) {
+    for (j in 2:(ancho-1)) {
+      # print(c(i,j))
+      # Reglas
+        ##m2[i, j] <- m2[i, j] + 1
+        
+        
+      
     }
   }
+  return(m2[-c(1,len),-c(1,len)])
 }
