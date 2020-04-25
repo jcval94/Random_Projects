@@ -43,3 +43,21 @@ Iter<-function(m)
   }
   return(m_aux[-c(1,len),-c(1,len)])
 }
+
+
+n <- 40
+tablero <- matrix(integer(n^2), n, n)
+#Estado inicial:
+i<-20
+j<-20
+tablero[i,j] <- 1
+tablero[i,j+1] <- 1
+tablero[i+1,j+1] <- 1
+tablero[i+1,j+2] <- 1
+tablero[i+2,j+1] <- 1
+
+library(plot.matrix)
+
+plot(tablero)
+
+plot(Iter(tablero))
