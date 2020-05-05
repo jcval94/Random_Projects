@@ -41,7 +41,7 @@ Iter<-function(m)
       }
     }
   }
-  return(m_aux[-c(1,len),-c(1,len)])
+  return(m_aux[-c(1,alto),-c(1,ancho)])
 }
 
 
@@ -56,8 +56,29 @@ tablero[i+1,j+1] <- 1
 tablero[i+1,j+2] <- 1
 tablero[i+2,j+1] <- 1
 
+
+#Example
 library(plot.matrix)
-
 plot(tablero)
-
 plot(Iter(tablero))
+
+n<-100
+# par(mfrow = c(n / 2, n))
+#Create a new folder
+dir.create("Life_game")
+setwd(paste0(getwd(),"/Life_game"))
+
+for(i in 1:n){
+  # 1. Open jpeg file
+  jpeg(paste0("rplot_",i,".jpg"))
+  # 2. Iterate tablero
+  tablero <- Iter(tablero)
+  # 3. Create the plot
+  plot(tablero)
+  # 3. Close the file
+  dev.off()
+  print(i)
+}
+
+
+
